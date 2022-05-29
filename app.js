@@ -29,22 +29,23 @@ console.table(allExpenses);
    const someText=`Total: ${totalExpense}`
    headingEl.textContent=someText;
 
-   //displaying a table with divs and templating
-//    const data1=allExpenses[0];
-//    const data2=allExpenses[1];
-
-//    const data1Text=`${data1.amount} :: ${data1.textDesc}`;
-//    const data2Text=`${data2.amount} :: ${data2.textDesc}`;
-   
-//    const tableText= `
-//    <div>${data1Text}</div>
-//    <div>${data2Text}</div>
-//    `
+ 
 
 const allExpensesHTML= allExpenses.map(expense => createListItem(expense));
 
+//delete item
+function deleteItem(dateValue) {
+    console.log('delete was called',dateValue);
+
+    for(let i=0;i<allExpenses.length;i++) {
+        if(allExpenses[i].moment.valueOf()===dateValue) {
+            console.log('Item found', allExpenses[i]);
+        }
+    }
+}
+
 function createListItem({textDesc, amount, moment}) {
-    return `	<ul class="list-group">
+    return `<ul class="list-group">
     <li class="list-group-item d-flex justify-content-between">
         <div class="d-flex flex-column">
         ${textDesc}
@@ -54,16 +55,16 @@ function createListItem({textDesc, amount, moment}) {
             <span class="px-5">
             ${amount}
             </span>
-            <button type="button" class="btn btn-outline-danger btn-sm">
+            <button type="button" 
+            class="btn btn-outline-danger btn-sm"
+            onclick="deleteItem(${moment.valueOf()})">
                 <i class="fas fa-trash-alt"></i>
             </button>
         </div>
     </li>`
 }
 
-
 const joinedAllexp=allExpensesHTML.join("");
-console.log(joinedAllexp);
 
    expTable.innerHTML=joinedAllexp;
 }
