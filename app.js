@@ -6,7 +6,7 @@ const userDescInput=document.querySelector('#inputTextDesc');
 //get ref to table
 const expTable=document.querySelector('#expenseTable');
 let totalExpense=0;
-const allExpenses=[];
+let allExpenses=[];
 
 function addExpenseToTotal() {
 const expenseItem={};
@@ -29,21 +29,14 @@ console.table(allExpenses);
    const someText=`Total: ${totalExpense}`
    headingEl.textContent=someText;
 
- 
 
 const allExpensesHTML= allExpenses.map(expense => createListItem(expense));
+const joinedAllexp=allExpensesHTML.join("");
 
-//delete item
-function deleteItem(dateValue) {
-    console.log('delete was called',dateValue);
-
-    for(let i=0;i<allExpenses.length;i++) {
-        if(allExpenses[i].moment.valueOf()===dateValue) {
-            console.log('Item found', allExpenses[i]);
-        }
-    }
+   expTable.innerHTML=joinedAllexp;
 }
 
+//view layer
 function createListItem({textDesc, amount, moment}) {
     return `<ul class="list-group">
     <li class="list-group-item d-flex justify-content-between">
@@ -64,7 +57,34 @@ function createListItem({textDesc, amount, moment}) {
     </li>`
 }
 
-const joinedAllexp=allExpensesHTML.join("");
 
+//delete item
+function deleteItem(dateValue) {
+    // const newarr=[];
+    // console.log('delete was called',dateValue);
+
+    // for(let i=0;i<allExpenses.length;i++) {
+    //     if(allExpenses[i].moment.valueOf()!==dateValue) {
+    //         newarr.push(allExpenses[i]);
+    let newTotalExpense = 0;
+    const newArr = allExpenses.filter((exp)=>{
+        if(exp.moment.valueOf() !== dateValue)
+        {
+            newTotalExpense = newTotalExpense + exp.amount 
+            return exp
+        }
+    })
+    // So that allExpense is updated
+    allExpenses = newArr
+    renderList(newArr)
+    // So that totalExpense is updated
+    totalExpense = newTotalExpense
+    headingEl.textContent = `Total Expense: ${totalExpense}`
+    }
+
+
+function renderList(arrOfList) {
+    const allExpensesHTML= arrOfList.map(expense => createListItem(expense));
+    const joinedAllexp=allExpensesHTML.join('');
    expTable.innerHTML=joinedAllexp;
 }
