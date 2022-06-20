@@ -1,20 +1,32 @@
+//get the btn element
 const incrementCounter=document.querySelector('#btnCounter');
+
+//listen to the click event
 incrementCounter.addEventListener("click",addExpenseToTotal,false);
+
+//get the heading element
 const headingEl=document.querySelector("#showtotal");
+
+//read input value from user.
 const userInput=document.querySelector('#inputText');
+//for desc
 const userDescInput=document.querySelector('#inputTextDesc');
 //get ref to table
 const expTable=document.querySelector('#expenseTable');
+
 let totalExpense=0;
 let allExpenses=[];
 
 function addExpenseToTotal() {
 const expenseItem={};
+
+//getting input value 
     const textAmount=userInput.value;
+    //getting input value of description
     const desc=inputTextDesc.value;
  console.log({desc,textAmount});
 
-
+//convert it to number
     const expense=parseInt(textAmount,10);
  
 expenseItem.textDesc=desc;
@@ -24,9 +36,13 @@ expenseItem.moment= new Date();
 allExpenses.push(expenseItem);
 console.clear();
 console.table(allExpenses);
+
+//adding value to totalexpenses
     totalExpense=totalExpense+expense;
 
    const someText=`Total: ${totalExpense}`
+
+   //set the heading ele
    headingEl.textContent=someText;
 
 
@@ -42,7 +58,7 @@ function createListItem({textDesc, amount, moment}) {
     <li class="list-group-item d-flex justify-content-between">
         <div class="d-flex flex-column">
         ${textDesc}
-            <small class="text-muted">${moment.toLocaleDateString('en-US',{year:'numeric', month:'long', day:'numeric'})}</small>
+            <small class="text-muted">${getDate(moment)}</small>
         </div>
         <div>
             <span class="px-5">
@@ -87,4 +103,13 @@ function renderList(arrOfList) {
     const allExpensesHTML= arrOfList.map(expense => createListItem(expense));
     const joinedAllexp=allExpensesHTML.join('');
    expTable.innerHTML=joinedAllexp;
+}
+
+//getting the date 
+function getDate(momento) {
+return momento.toLocaleDateString('en-US', {
+year:'numeric', 
+month:'long', 
+day:'numeric',
+});
 }
